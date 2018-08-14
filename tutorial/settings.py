@@ -107,6 +107,16 @@ LAGOU_PC_HEADERS = {
     "Referer":"https://www.lagou.com/zhaopin/PHP/"
 }
 
-BOSS_COOKIE = "lastCity=101020100; Hm_lvt_194df3105ad7148dcf2b98a91b5e727a=1532661872,1532686206; Hm_lpvt_194df3105ad7148dcf2b98a91b5e727a=1532687462; __g=-; __l=%22r=https%3A%2F%2Fwww.zhipin.com%2F&l=%2Fc101020100-p100103%2F%22; __a=15569087.1532687461..1532687461.1.1.1.1"
+BOSS_COOKIE = "t=jG8W1at00htb7Peh; wt=jG8W1at00htb7Peh; JSESSIONID=""; __c=1534237860; __g=-; __l=l=%2Fwww.zhipin.com%2F&r=; Hm_lvt_194df3105ad7148dcf2b98a91b5e727a=1534144434,1534209474,1534237860,1534239007; lastCity=101280600; Hm_lpvt_194df3105ad7148dcf2b98a91b5e727a=1534244317; __a=22274755.1529842814.1534209475.1534237860.1703.29.29.1431"
 
 REDIS_POSITION_KEY = "positionIds"
+
+BOSS_SPIDER_CONFIG = {
+    # 爬取城市，深圳
+    "city":"101280600",
+    # 爬取类型，new-job-list：最新职位
+    "type":"new-job-list",
+    "min_page":1,
+    "max_page":2,
+    "query":"PHP",
+}

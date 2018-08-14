@@ -1,7 +1,6 @@
 import scrapy
 from tutorial.items import TutorialItem
 from scrapy.http import Request
-from scrapy.spiders import CrawlSpider
 from scrapy.selector import Selector
 import  json
 import  time
@@ -9,16 +8,17 @@ import  random
 import redis
 from scrapy.conf import settings
 
-#zhipin 爬虫
+# zhipin 爬虫
 class ZhipinSpider(scrapy.Spider):
 
     name = "boss"
     allowed_domains = ["www.zhipin.com"]
 
-    current_page = 1 #开始页码
-    max_page = 4 #最大页码
+    boss_config = settings.get('BOSS_SPIDER_CONFIG')
+    current_page = boss_config['min_page'] #开始页码
+    max_page = boss_config['max_page'] #最大页码
     start_urls = [
-        "https://www.zhipin.com/mobile/jobs.json?city=101020100&query=PHP",
+        "https://www.zhipin.com/mobile/jobs.json?city={city}&query={query}".format(city=boss_config['city'], query=boss_config['query']),
     ]
     custom_settings = {
         "ITEM_PIPELINES":{
@@ -31,10 +31,10 @@ class ZhipinSpider(scrapy.Spider):
         "DEFAULT_REQUEST_HEADERS":{
             'Accept': 'application/json',
             'Accept-Language': 'zh-CN,zh;q=0.9',
-            'User-Agent':'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Mobile Safari/537.36',
-            'Referer':'https://www.zhipin.com/',
+            'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
+            'Referer':'https://www.zhipin.com',
             'X-Requested-With':"XMLHttpRequest",
-            "cookie":"lastCity=101020100; JSESSIONID=""; Hm_lvt_194df3105ad7148dcf2b98a91b5e727a=1532401467,1532435274,1532511047,1532534098; __c=1532534098; __g=-; __l=l=%2Fwww.zhipin.com%2F&r=; toUrl=https%3A%2F%2Fwww.zhipin.com%2Fc101020100-p100103%2F; Hm_lpvt_194df3105ad7148dcf2b98a91b5e727a=1532581213; __a=4090516.1532500938.1532516360.1532534098.11.3.7.11"
+            "cookie":settings.get('BOSS_COOKIE')
         }
     }
     def parse(self, response):
@@ -73,7 +73,7 @@ class ZhipinSpider(scrapy.Spider):
 
         if self.current_page < self.max_page:
             self.current_page += 1
-            api_url = "https://www.zhipin.com/mobile/jobs.json?city=101020100&query=PHP"+"&page="+str(self.current_page)
+            api_url = "https://www.zhipin.com/mobile/jobs.json?city={city}&query={query}&page={page}".format(city=self.boss_config['city'], query=self.boss_config['query'], page=self.current_page)
             time.sleep(int(random.uniform(50, 70)))
             yield  Request(api_url,callback=self.parse)
         pass

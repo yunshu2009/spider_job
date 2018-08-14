@@ -26,6 +26,7 @@
 ├─word.json 生成的英文技术词json
 ├─word.py 生成英文分词
 ├─stop.txt 停用词列表
+├─main.py 调试脚本
 ```
 
 ## 安装
@@ -41,8 +42,7 @@
   ```
 
 
-
-运行爬虫
+## 运行爬虫
 
 ```bash
 scrapy crawl boss #抓boss
