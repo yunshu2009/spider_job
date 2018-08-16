@@ -62,7 +62,7 @@ class ZhipinSpider(scrapy.Spider):
                 "educational":educational
             }
 
-            time.sleep(int(random.uniform(50, 70)))
+            time.sleep(int(random.uniform(1, 3)))
             #初始化redis
             pool= redis.ConnectionPool(host='localhost',port=6379,decode_responses=True)
             r=redis.Redis(connection_pool=pool)
@@ -74,9 +74,7 @@ class ZhipinSpider(scrapy.Spider):
         if self.current_page < self.max_page:
             self.current_page += 1
             api_url = "https://www.zhipin.com/mobile/jobs.json?city={city}&query={query}&page={page}".format(city=self.boss_config['city'], query=self.boss_config['query'], page=self.current_page)
-            time.sleep(int(random.uniform(50, 70)))
             yield  Request(api_url,callback=self.parse)
-        pass
 
     def parse_item(self,response):
         item = TutorialItem()

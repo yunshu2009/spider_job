@@ -53,10 +53,9 @@ def clear_position(name):
     educational = data[-1]
     return name,work_year,educational
 
-#判断PHP是否在职位名称中，不在就过滤掉。
-#jd中含有php不参考，因为很多jd中都乱写
+#判断搜索职位是否在职位名称中，不在就过滤掉。
 def clean_name(name):
-    if "PHP" not in name.upper():
+    if settings.get('BOSS_SPIDER_CONFIG')['query'] not in name.upper():
         return False
     return True
 
